@@ -1,6 +1,7 @@
 package com.ucsdextandroid1.snapapp.chat;
 
 import android.content.res.ColorStateList;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ public class ChatItemViewHolder extends RecyclerView.ViewHolder {
 
     private Chat currentChat;
 
+    private ChatClickListener chatClickListener;
+
     public static ChatItemViewHolder inflate(ViewGroup parent) {
         return new ChatItemViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.view_chat_item, parent, false));
@@ -37,7 +40,25 @@ public class ChatItemViewHolder extends RecyclerView.ViewHolder {
         subtitleView = itemView.findViewById(R.id.vci_subtitle);
         emojiView = itemView.findViewById(R.id.vci_emoji);
 
-        //TODO add click listener
+        //TODO add click listener  -- when click on the view
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("ChatItemViewHolder", v.getClass().getSimpleName());
+                Log.d("ChatItemViewHolder", "Click detected");
+                Log.d("ChatItemViewHolder",currentChat.getFromName());
+
+                chatClickListener.onChatItemClick(currentChat);
+            }
+        });
+
+        itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                chatClickListener.onChatItemLongClick(currentChat);
+                return false;
+            }
+        });
     }
 
     public void bind(Chat chat) {
@@ -65,8 +86,14 @@ public class ChatItemViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public interface ChatClickListener {
+    public void setOnChatClickCallback(ChatClickListener listener) {
+        chatClickListener = listener;
+    }
 
+    public interface ChatClickListener {
+        void onChatItemClick(Chat chat);
+
+        void onChatItemLongClick(Chat chat);
     }
 
 }
