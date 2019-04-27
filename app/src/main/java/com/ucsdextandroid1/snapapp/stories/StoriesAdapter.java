@@ -21,10 +21,11 @@ public class StoriesAdapter extends RecyclerView.Adapter {
     public void setItems(Context context, List<Story> stories) {
         items.clear();
 
-        //TODO add title item, using context.getString(R.string.stories)) to get the title
+        //TODO add title item to our list of StoriesListItems
+        //hint, you can use using context.getString(R.string.stories)) to get a String
         items.add(new StoriesListItem(context.getString(R.string.stories)));
 
-        //TODO add all of the story items to the list
+        //TODO add all of the story items to the list of StoriesListItems
         for (Story story : stories) {  //loop thru story of our list
             items.add(new StoriesListItem(story));
         }
@@ -37,7 +38,8 @@ public class StoriesAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //TODO return the correct view holder for each viewType
+        //TODO return the correct view holder for each viewType. We want to return the
+        // StoriesSectionTitleViewHolder for our title and the StoryCardViewHolder for our items.
         return StoryCardViewHolder.inflate(parent);
     }
 
@@ -65,14 +67,22 @@ public class StoriesAdapter extends RecyclerView.Adapter {
         return 0;
     }
 
-    //TODO add a method that returns the correct span for each item type.
+    //TODO add a method that returns the correct span for each item type. It should take in the
+    // int position and return an int representing either 1 or 2 depending on if the item is a title
+    // or a story card item.
 
     //TODO add a custom interface called Callback that extends the click listener defined on the StoriesCardViewHolder
+
+    //TODO finish creating a class that holds both the story and the title
 
     private class StoriesListItem {
 
         public static final int TYPE_TITLE = 1;
         public static final int TYPE_STORY = 2;
+
+        // you will need to add 2 constructors, one that takes in a String title, and another that
+        // takes in a Story story. We need this data class to represent all the possibilities for
+        // our list.
 
         private String title;
         private Story story;

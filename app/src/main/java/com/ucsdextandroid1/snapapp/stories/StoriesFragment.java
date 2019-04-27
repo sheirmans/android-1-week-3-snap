@@ -40,7 +40,7 @@ public class StoriesFragment extends Fragment {
         WindowUtil.doOnApplyWindowInsetsToMargins(background, true, false);
         WindowUtil.doOnApplyWindowInsetsToPadding(recyclerView, true, true);
 
-        //TODO create a adapter
+        //TODO create a StoriesAdapter
 
         //TODO create a grid layout manager with default span of 2 and the SpanSizeLookup for each type
 

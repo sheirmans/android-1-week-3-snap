@@ -43,14 +43,16 @@ public class StoryCardViewHolder extends RecyclerView.ViewHolder {
         subtitleView = itemView.findViewById(R.id.vci_subtitle);
 
         //TODO add a click listener to the itemView that calls the custom click listener
-
+        public void setOnStoryCardClickCallBack(StoryCardClickListener storyClickListener)
+            listener = storyClickListener;
     }
 
     public void bind(Story story) {
         //TODO set the currentStory
         currentStory = story;
 
-        //TODO load the imageUrl into the imageView using Picasso
+        //TODO load the imageUrl into the imageView using Picasso (http://square.github.io/picasso/)
+        //the library has already been added to the project.
         Picasso.get()
                 .load(story.getImageUrl())
                 .placeholder(new ColorDrawable(ColorUtil.getRandomColor()))
@@ -62,9 +64,13 @@ public class StoryCardViewHolder extends RecyclerView.ViewHolder {
    }
 
     //TODO add a method to set a StoryCardClickListener to this class
+    public void setOnStoryCardClickCallBack(StoryCardClickListener listener) {
+        storyClickListener = listener;
+    }
 
     public interface StoryCardClickListener {
         // TODO add a method to be called when the user clicks the card view
+        void onStoryItemClick(Chat chat);
     }
 
 }
