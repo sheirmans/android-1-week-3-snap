@@ -21,6 +21,8 @@ import java.util.List;
  * Created by rjaylward on 4/15/19
  */
 public class StoriesFragment extends Fragment {
+    RecyclerView recyclerView = null;
+    StoriesAdapter adapter = new StoriesAdapter();
 
     public static StoriesFragment create() {
         return new StoriesFragment();
@@ -41,17 +43,33 @@ public class StoriesFragment extends Fragment {
         WindowUtil.doOnApplyWindowInsetsToPadding(recyclerView, true, true);
 
         //TODO create a StoriesAdapter
+        recyclerView.setAdapter(adapter);
 
         //TODO create a grid layout manager with default span of 2 and the SpanSizeLookup for each type
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return adapter.getSpanSize(position);
+            }
+        });
 
         //TODO set up the recyclerView with the layoutManager and adapter
+        recyclerView.setLayoutManager(gridLayoutManager);
 
         //TODO add a callback to the adapter that calls the method onStoryClicked when the user clicks on the list item
+        adapter.StoryCardClickListener(new StoryCardViewHolder.StoryCardClickListener() {
+            @Override
+            public void onStoryItemClick(Story story) {
+                onStoryClicked(story);
+            }
+        });
 
         DataSources.getInstance().getStoryCards(new DataSources.Callback<List<Story>>() {
             @Override
             public void onDataFetched(List<Story> data) {
                 //TODO set the data from the DataSource to the adapter
+                adapter.setItems(getContext(),data);
             }
         });
 
@@ -59,7 +77,7 @@ public class StoriesFragment extends Fragment {
     }
 
     private void onStoryClicked(Story story) {
-
+        Toast.makeText(getContext(),story.getTitle(),Toast.LENGTH_LONG).show();
     }
 
 }
